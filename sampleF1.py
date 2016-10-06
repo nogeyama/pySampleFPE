@@ -24,26 +24,30 @@
 
 
 import codecs
+
+in_dname = u"a1zAZ09@_$#%&! =-+.,;'`(日){本}[語]~^"
+in_fname = u"a212zAZ09@_$#%&! =-+.,;\'`(２){本}[語]~^.txt"
+out_fname = "a.a.txt"
+
 if __name__ == '__main__':
 
-    fp_in_sjis2unicode = codecs.open(u'data-in-sjis.txt','r','shift_jis')
-    fp_out_unicode2utf8 = codecs.open(u'data-out-utf8.txt','w','utf-8')
+    fp_in_sjis2unicode = codecs.open(in_dname+'/'+in_fname,'r','shift_jis')
+    fp_out_unicode2utf8 = codecs.open(out_fname,'w','utf-8')
 
     for row in fp_in_sjis2unicode:
-        print type(row),'row=unicode'
+        print( type(row),'row=unicode')
 
         rowJunicode = u'追加プログラム内文字列1--'+row  # MIX!★
-        print type(rowJunicode),'rowJunicode=unicode'
+        print( type(rowJunicode),'rowJunicode=unicode')
 
-        ##rowJstr = rowJunicode.encode('utf-8') # 直前に一括して変換．（途中で変換して結合はダメ）
-        rowJstr = rowJunicode.encode('shift_jis') # 直前に一括して変換．（途中で変換して結合はダメ）
-        print rowJstr  # ==> できた！consoleOK&pipeOK&writeNG as str
-        print type(rowJstr),'rowJstr=str'
+        rowJbyte = rowJunicode.encode('shift_jis') # 直前に一括して変換．（途中で変換して結合はダメ）
+        print( rowJbyte)  # ==> できた！consoleOK&pipeOK&writeNG as str
+        print( type(rowJbyte),'rowJbyte=byte')
 
         fp_out_unicode2utf8.write(rowJunicode)  # writeOK as Unicode
 
     fp_out_unicode2utf8.write(u'追加プログラム内文字列2')  # < writeOK as Unicode！
-    print u'追加プログラム内文字列3'.encode('shift_jis')
+    print( u'追加プログラム内文字列3'.encode('shift_jis'))
 
     fp_in_sjis2unicode.close()
     fp_out_unicode2utf8.close()
